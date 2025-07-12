@@ -5,75 +5,141 @@ from sqlalchemy import text
 from db.connection import engine
 
 class UserBooksResource:
+
     # ADD A BOOK TO MY READING LIST
     def on_post(self, req, resp):
         data = req.media
         user_id = data.get('user_id')
-        book_id = data.get('book_id')
-
-        if not user_id or not book_id:
-            resp.status = falcon.HTTP_400
-            resp.media = {'error': 'user_id and book_id are required'}
-            return
-
-        # Default values
-        status = data.get('status', 'not_started')
+        title = data.get('title')
+        authors = data.get('authors')
+        thumbnail_url = data.get('thumbnail_url')
+        status = data.get('status', 'NOT_STARTED')
         progress = data.get('progress', 0)
-        rating = data.get('rating', None)
-        notes = data.get('notes', None)
+        rating = data.get('rating')
+        notes = data.get('notes')
 
-        # THIS ADDS A NEW ROW INTO THE user_books TABLE
-        # IF THAT USER ALREADY ADDED THAT BOOK IT DOES NOTHING
-        insert_query = """
-        INSERT INTO user_books (user_id, book_id, status, progress, rating, notes)
-        VALUES (:user_id, :book_id, :status, :progress, :rating, :notes)
-        ON CONFLICT (user_id, book_id) DO NOTHING;
-        """
+        if not user_id or not title or not authors:
+            resp.status = falcon.HTTP_400
+            resp.media = {'error': 'user_id, title, and authors are required'}
+            return
 
         try:
             with engine.begin() as conn:
-                conn.execute(text(insert_query), {
-                    'user_id': user_id,
-                    'book_id': book_id,
-                    'status': status,
-                    'progress': progress,
-                    'rating': rating,
-                    'notes': notes
-                })
+            # Step 1: Find or insert book
+                select_book = text("SELECT id FROM books WHERE title = :title AND authors = :authors")
+                result = conn.execute(select_book, {'title': title, 'authors': authors}).fetchone()
+                if result:
+                    book_id = result.id
+                else:
+                    insert_book = """
+                    INSERT INTO books (title, authors, thumbnail_url, google_book_id)
+                    VALUES (:title, :authors, :thumbnail_url, :google_book_id)
+                    RETURNING id
+                    """
+                    result = conn.execute(text(insert_book), {
+                        'title': title,
+                        'authors': authors,
+                        'thumbnail_url': thumbnail_url,
+                        'google_book_id': data.get('google_book_id')
+                    })
+                    book_id = result.fetchone().id
+
+            # Step 2: Add to user_books if not already there
+                    insert_user_book = """
+                    INSERT INTO user_books (user_id, book_id, status, progress, rating, notes)
+                    VALUES (:user_id, :book_id, :status, :progress, :rating, :notes)
+                    ON CONFLICT (user_id, book_id) DO NOTHING
+                    """
+
+                    conn.execute(text(insert_user_book), {
+                        'user_id': user_id,
+                        'book_id': book_id,
+                        'status': status,
+                        'progress': progress,
+                        'rating': rating,
+                        'notes': notes
+                    })
+
             resp.status = falcon.HTTP_201
-            resp.media = {'message': 'Book added to reading list'}
+            resp.media = {'message': 'Book added to reading list', 'book_id': book_id}
+
         except Exception as e:
             resp.status = falcon.HTTP_500
             resp.media = {'error': 'Failed to add book', 'details': str(e)}
-    # GETS A USERS READING LIST
-    def on_get(self, req, resp):
-        user_id = req.get_param('user_id')
-        status = req.get_param('status')  # optional LETS THE USER FILTER BY THEIR STATUS
 
-        if not user_id:
-            resp.status = falcon.HTTP_400
-            resp.media = {'error': 'user_id is required'}
-            return
+    # def on_post(self, req, resp):
+    #     data = req.media
+    #     user_id = data.get('user_id')
+    #     book_id = data.get('book_id')
 
-        base_query = """
-        SELECT * FROM user_books
-        WHERE user_id = :user_id
-        """
-        params = {'user_id': user_id}
+    #     if not user_id or not book_id:
+    #         resp.status = falcon.HTTP_400
+    #         resp.media = {'error': 'user_id and book_id are required'}
+    #         return
 
-        if status:
-            base_query += " AND status = :status"
-            params['status'] = status
+    #     # Default values
+    #     status = data.get('status', 'not_started')
+    #     progress = data.get('progress', 0)
+    #     rating = data.get('rating', None)
+    #     notes = data.get('notes', None)
 
-        try:
-            with engine.begin() as conn:
-                result = conn.execute(text(base_query), params)
-                books = [dict(row._mapping) for row in result]
-            resp.status = falcon.HTTP_200
-            resp.media = books
-        except Exception as e:
-            resp.status = falcon.HTTP_500
-            resp.media = {'error': 'Failed to fetch reading list', 'details': str(e)}
+    #     # THIS ADDS A NEW ROW INTO THE user_books TABLE
+    #     # IF THAT USER ALREADY ADDED THAT BOOK IT DOES NOTHING
+    #     insert_query = """
+    #     INSERT INTO user_books (user_id, book_id, status, progress, rating, notes)
+    #     VALUES (:user_id, :book_id, :status, :progress, :rating, :notes)
+    #     ON CONFLICT (user_id, book_id) DO NOTHING;
+    #     """
+
+    #     try:
+    #         with engine.begin() as conn:
+    #             conn.execute(text(insert_query), {
+    #                 'user_id': user_id,
+    #                 'book_id': book_id,
+    #                 'status': status,
+    #                 'progress': progress,
+    #                 'rating': rating,
+    #                 'notes': notes
+    #             })
+    #         resp.status = falcon.HTTP_201
+    #         resp.media = {'message': 'Book added to reading list'}
+    #     except Exception as e:
+    #         resp.status = falcon.HTTP_500
+    #         resp.media = {'error': 'Failed to add book', 'details': str(e)}
+    # # GETS A USERS READING LIST
+    # def on_get(self, req, resp):
+    #     user_id = req.get_param('user_id')
+    #     status = req.get_param('status')  # optional
+
+    #     if not user_id:
+    #         resp.status = falcon.HTTP_400
+    #         resp.media = {'error': 'user_id is required'}
+    #         return
+
+    #     base_query = """
+    #     SELECT ub.*, b.title, b.authors, b.thumbnail_url
+    #     FROM user_books ub
+    #     JOIN books b ON ub.book_id = b.id
+    #     WHERE ub.user_id = :user_id
+    #     """
+    #     params = {'user_id': user_id}
+
+    #     if status:
+    #         base_query += " AND ub.status = :status"
+    #         params['status'] = status
+
+    #     try:
+    #         with engine.begin() as conn:
+    #             result = conn.execute(text(base_query), params)
+    #             books = []
+    #             for row in result:
+    #                 #  # Debug: see full row mapping
+    #                 books.append(dict(row._mapping))
+    #         resp.status = falcon.HTTP_200
+    #         resp.media = books
+    #     except Exception as e:
+    #         resp.status = falcon.HTTP_500
+    #         resp.media = {'error': 'Failed to fetch reading list', 'details': str(e)}
     # UPDATES INFO SENT BY THE USER
     def on_patch(self, req, resp):
         data = req.media
