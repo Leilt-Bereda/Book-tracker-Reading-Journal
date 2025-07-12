@@ -48,6 +48,7 @@ class RegisterResource:
                     'password_hash': hashed_password
                 })
             resp.status = falcon.HTTP_201
+            resp.content_type = 'application/json'
             resp.media = {'message': 'User registered successfully'}
         except IntegrityError as e:
             resp.status = falcon.HTTP_400
