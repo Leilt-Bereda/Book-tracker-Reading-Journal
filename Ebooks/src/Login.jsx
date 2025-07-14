@@ -1,9 +1,9 @@
 import { Link } from 'react-router-dom';
-import image from './assets/image.jpg';
+import image from './assets/home.jpeg';
 
 export default function Login() {
   return (
-    <div className="flex flex-col md:flex-row h-screen m-15 md:m-0">
+    <div className="flex flex-col md:flex-row h-screen m-15 md:m-0 ">
       <div className="w-full md:w-1/2 h-auto md:h-screen flex items-center justify-center">
         <div className="w-[350px] h-[538px] relative">
           <h1 className="text-3xl font-medium mb-5">Welcome back!</h1>

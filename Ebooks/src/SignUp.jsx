@@ -1,7 +1,9 @@
 import { Link } from 'react-router-dom';
-import image from './assets/image.jpg';
+import image from './assets/home.jpeg';
+import { useNavigate } from 'react-router-dom';
 
 export default function SignUp() {
+    const navigate = useNavigate();
   return (
     <div className="flex flex-col md:flex-row h-screen m-15 md:m-0"> 
       <div className="w-full md:w-1/2 h-auto md:h-screen flex items-center justify-center">
@@ -33,7 +35,8 @@ export default function SignUp() {
             </p>
           </div>
 
-          <button className="w-full bg-[#3A5B22] text-white p-1 rounded-xl mt-10 font-medium cursor-pointer">
+          <button className="w-full bg-[#3A5B22] text-white p-1 rounded-xl mt-10 font-medium cursor-pointer" 
+          onClick={() => navigate('/Form1')}>
             Sign Up
           </button>
 
