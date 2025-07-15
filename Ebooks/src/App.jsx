@@ -6,6 +6,7 @@ import Form1 from './Form1.jsx'
 import Form2 from './Form2.jsx'
 import Form3 from './Form3.jsx'
 import Home from './Home.jsx'
+import ReadingList from './ReadingList.jsx'
 
 function App() {
 
@@ -19,6 +20,7 @@ function App() {
       <Route path="/Form2" element={<Form2 />} />
       <Route path="/Form3" element={<Form3 />} />
       <Route path="/Home" element={<Home />} />
+      <Route path="/ReadingList" element={<ReadingList />} />
 
     </Routes>
     </>

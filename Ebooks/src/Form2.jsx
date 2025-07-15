@@ -24,15 +24,15 @@ export default function Form1() {
               </div>
               <p>Step 2/3</p>
               <p className='mb-6'>What's your reading goal?</p>
-              <button className='w-56 h-8 border flex items-center justify-center rounded-2xl hover:bg-[#546F9D] hover:text-white cursor-pointer mb-6'>Learn something</button>
-              <button className='w-56 h-8 border flex items-center justify-center rounded-2xl hover:bg-[#546F9D] hover:text-white cursor-pointer mb-6'>Entertainment</button>
-              <button className='w-56 h-8 border flex items-center justify-center rounded-2xl hover:bg-[#546F9D] hover:text-white cursor-pointer mb-6'>Productivity</button>
-              <button className='w-56 h-8 border flex items-center justify-center rounded-2xl hover:bg-[#546F9D] hover:text-white cursor-pointer mb-6'>Relaxation</button>
+              <button className='w-56 h-8 border flex items-center justify-center rounded-2xl hover:bg-[#546F9D] hover:text-white cursor-pointer mb-6 border-[#546F9D]'>Learn something</button>
+              <button className='w-56 h-8 border flex items-center justify-center rounded-2xl hover:bg-[#546F9D] hover:text-white cursor-pointer mb-6 border-[#546F9D]'>Entertainment</button>
+              <button className='w-56 h-8 border flex items-center justify-center rounded-2xl hover:bg-[#546F9D] hover:text-white cursor-pointer mb-6 border-[#546F9D]'>Productivity</button>
+              <button className='w-56 h-8 border flex items-center justify-center rounded-2xl hover:bg-[#546F9D] hover:text-white cursor-pointer mb-6 border-[#546F9D]'>Relaxation</button>
 
             <div className='flex justify-between mt-6'>
                 <button className='w-32 h-8 border flex items-center justify-center rounded-2xl hover:bg-[#546F9D] hover:text-white cursor-pointer mb-6'
                 onClick={() => navigate('/Form1')}>Previous step</button>
-                <button className='w-32 h-8 border flex items-center justify-center rounded-2xl bg-[#546F9D] hover:bg-[#546F9D] hover:text-white cursor-pointer mb-6'
+                <button className='w-32 h-8 border flex items-center justify-center rounded-2xl bg-[#546F9D] text-white cursor-pointer mb-6 border-[#546F9D]'
                 onClick={() => navigate('/Form3')}>Next step</button>
                 
             </div>

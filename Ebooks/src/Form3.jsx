@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import image from './assets/home.jpeg';
+import image from './assets/form.jpeg';
 import { useNavigate } from 'react-router-dom';
 
 export default function Form1() {
@@ -24,12 +24,12 @@ export default function Form1() {
               </div>
               <p>Step 3/3</p>
               <p className='mb-6'>How much time do you want to spend?</p>
-              <button className='w-56 h-8 border flex items-center justify-center rounded-2xl hover:bg-[#546F9D] hover:text-white cursor-pointer mb-6'>Short reads(&lt;15 mins)</button>
-              <button className='w-56 h-8 border flex items-center justify-center rounded-2xl hover:bg-[#546F9D] hover:text-white cursor-pointer mb-6'>Medium(~ 30 mins)</button>
-              <button className='w-56 h-8 border flex items-center justify-center rounded-2xl hover:bg-[#546F9D] hover:text-white cursor-pointer mb-6'>Long()1hr+</button>
-              <button className='w-32 h-8 border flex items-center justify-center rounded-2xl  hover:bg-[#546F9D] hover:text-white cursor-pointer mt-6'
+              <button className='w-56 h-8 border flex items-center justify-center rounded-2xl hover:bg-[#546F9D] hover:text-white cursor-pointer mb-6 border-[#546F9D]'>Short reads(&lt;15 mins)</button>
+              <button className='w-56 h-8 border flex items-center justify-center rounded-2xl hover:bg-[#546F9D] hover:text-white cursor-pointer mb-6 border-[#546F9D]'>Medium(~ 30 mins)</button>
+              <button className='w-56 h-8 border flex items-center justify-center rounded-2xl hover:bg-[#546F9D] hover:text-white cursor-pointer mb-6 border-[#546F9D]'>Long(1hr+)</button>
+              <button className='w-32 h-8 border flex items-center justify-center rounded-2xl  hover:bg-[#546F9D] hover:text-white cursor-pointer mt-6 border-[#546F9D]'
               onClick={() => navigate('/Form2')}>Previous step</button>
-              <button className='w-full h-10 border flex items-center justify-center rounded-full bg-[#546F9D] hover:bg-[#546F9D] hover:text-white cursor-pointer mt-20'
+              <button className='w-full h-10 border flex items-center justify-center rounded-full bg-[#546F9D] text-white cursor-pointer mt-20'
               onClick={() => navigate('/Home')}>See suggestions</button>
             </div>
           </div>
