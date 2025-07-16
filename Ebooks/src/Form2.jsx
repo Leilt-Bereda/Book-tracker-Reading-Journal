@@ -1,9 +1,21 @@
 import { Link } from 'react-router-dom';
 import image from './assets/form.jpeg';
 import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 
 export default function Form1() {
      const navigate = useNavigate();
+     const [selected, setSelected] = useState({
+        learn: false,
+        entertainment: false,
+        productivity: false,
+        relaxation: false
+      });
+
+      const toggleGoal = (goal) => {
+    setSelected((prev) => ({ ...prev, [goal]: !prev[goal] }));
+  };
+
     return (
       <>
       <div className="relative h-screen w-screen overflow-hidden">
@@ -24,11 +36,35 @@ export default function Form1() {
               </div>
               <p>Step 2/3</p>
               <p className='mb-6'>What's your reading goal?</p>
-              <button className='w-56 h-8 border flex items-center justify-center rounded-2xl hover:bg-[#546F9D] hover:text-white cursor-pointer mb-6 border-[#546F9D]'>Learn something</button>
-              <button className='w-56 h-8 border flex items-center justify-center rounded-2xl hover:bg-[#546F9D] hover:text-white cursor-pointer mb-6 border-[#546F9D]'>Entertainment</button>
-              <button className='w-56 h-8 border flex items-center justify-center rounded-2xl hover:bg-[#546F9D] hover:text-white cursor-pointer mb-6 border-[#546F9D]'>Productivity</button>
-              <button className='w-56 h-8 border flex items-center justify-center rounded-2xl hover:bg-[#546F9D] hover:text-white cursor-pointer mb-6 border-[#546F9D]'>Relaxation</button>
-
+              <button
+              onClick={() => toggleGoal('learn')}
+              className={`w-56 h-8 border flex items-center justify-center rounded-2xl cursor-pointer mb-6 border-[#546F9D] transition duration-300
+                ${selected.learn ? "bg-[#546F9D] text-white" : "hover:bg-[#546F9D] hover:text-white"}
+              `}>
+              Learn something
+            </button>
+            <button
+              onClick={() => toggleGoal('entertainment')}
+              className={`w-56 h-8 border flex items-center justify-center rounded-2xl cursor-pointer mb-6 border-[#546F9D] transition duration-300
+                ${selected.entertainment ? "bg-[#546F9D] text-white" : "hover:bg-[#546F9D] hover:text-white"}
+              `}>
+              Entertainment
+            </button>
+            <button
+              onClick={() => toggleGoal('productivity')}
+              className={`w-56 h-8 border flex items-center justify-center rounded-2xl cursor-pointer mb-6 border-[#546F9D] transition duration-300
+                ${selected.productivity ? "bg-[#546F9D] text-white" : "hover:bg-[#546F9D] hover:text-white"}
+              `}>
+              Productivity
+            </button>
+            <button
+              onClick={() => toggleGoal('relaxation')}
+              className={`w-56 h-8 border flex items-center justify-center rounded-2xl cursor-pointer mb-6 border-[#546F9D] transition duration-300
+                ${selected.relaxation ? "bg-[#546F9D] text-white" : "hover:bg-[#546F9D] hover:text-white"}
+              `}>
+              Relaxation
+            </button>
+             
             <div className='flex justify-between mt-6'>
                 <button className='w-32 h-8 border flex items-center justify-center rounded-2xl hover:bg-[#546F9D] hover:text-white cursor-pointer mb-6'
                 onClick={() => navigate('/Form1')}>Previous step</button>

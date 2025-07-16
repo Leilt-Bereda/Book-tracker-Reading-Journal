@@ -1,9 +1,20 @@
 import { Link } from 'react-router-dom';
 import image from './assets/form.jpeg';
 import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 
 export default function Form1() {
     const navigate = useNavigate();
+  const [selected, setSelected] = useState({
+    fiction: false,
+    fantasy: false,
+    selfHelp: false
+  });
+
+  const toggleGenre = (genre) => {
+    setSelected((prev) => ({ ...prev, [genre]: !prev[genre] }));
+  };
+
     return (
       <>
       <div className="relative h-screen w-screen overflow-hidden">
@@ -24,9 +35,31 @@ export default function Form1() {
               </div>
               <p>Step 1/3</p>
               <p className='mb-6'>What Genres do you enjoy?</p>
-              <button className='w-56 h-8 border flex items-center justify-center rounded-2xl hover:bg-[#546F9D] hover:text-white cursor-pointer mb-6 border-[#546F9D]'>Fiction</button>
-              <button className='w-56 h-8 border flex items-center justify-center rounded-2xl hover:bg-[#546F9D] hover:text-white cursor-pointer mb-6 border-[#546F9D]'>Fantasy</button>
-              <button className='w-56 h-8 border flex items-center justify-center rounded-2xl hover:bg-[#546F9D] hover:text-white cursor-pointer mb-6 border-[#546F9D]'>Self-help</button>
+              <button
+              onClick={() => toggleGenre('fiction')}
+              className={`w-56 h-8 border flex items-center justify-center rounded-2xl cursor-pointer mb-6 border-[#546F9D] transition duration-300
+                ${selected.fiction ? "bg-[#546F9D] text-white" : "hover:bg-[#546F9D] hover:text-white"}
+              `}>
+              Fiction
+            </button>
+
+            <button
+              onClick={() => toggleGenre('fantasy')}
+              className={`w-56 h-8 border flex items-center justify-center rounded-2xl cursor-pointer mb-6 border-[#546F9D] transition duration-300
+                ${selected.fantasy ? "bg-[#546F9D] text-white" : "hover:bg-[#546F9D] hover:text-white"}
+              `}>
+              Fantasy
+            </button>
+
+            <button
+              onClick={() => toggleGenre('selfHelp')}
+              className={`w-56 h-8 border flex items-center justify-center rounded-2xl cursor-pointer mb-6 border-[#546F9D] transition duration-300
+                ${selected.selfHelp ? "bg-[#546F9D] text-white" : "hover:bg-[#546F9D] hover:text-white"}
+              `}>
+              Self-help
+            </button>
+
+
               <button className='w-32 h-8 border flex items-center justify-center rounded-2xl bg-[#546F9D] hover:bg-[#546F9D] text-white cursor-pointer mt-6 border-[#546F9D]'
               onClick={() => navigate('/Form2')}>Next step</button>
             </div>

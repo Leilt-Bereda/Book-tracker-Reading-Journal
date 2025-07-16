@@ -35,7 +35,7 @@ export default function SignUp() {
             </p>
           </div>
 
-          <button className="w-full bg-[#3A5B22] text-white p-1 rounded-xl mt-10 font-medium cursor-pointer" 
+          <button className="w-full bg-[#546F9D] text-white p-1 rounded-xl mt-10 font-medium cursor-pointer" 
           onClick={() => navigate('/Form1')}>
             Sign Up
           </button>

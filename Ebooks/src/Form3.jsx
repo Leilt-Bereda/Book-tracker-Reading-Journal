@@ -1,9 +1,20 @@
 import { Link } from 'react-router-dom';
 import image from './assets/form.jpeg';
 import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 
 export default function Form1() {
     const navigate = useNavigate();
+    const [selected, setSelected] = useState({
+            short: false,
+            medium: false,
+            long: false,
+          });
+    
+          const toggleTime = (time) => {
+        setSelected((prev) => ({ ...prev, [time]: !prev[time] }));
+      };
+    
     return (
       <>
       <div className="relative h-screen w-screen overflow-hidden">
@@ -24,9 +35,30 @@ export default function Form1() {
               </div>
               <p>Step 3/3</p>
               <p className='mb-6'>How much time do you want to spend?</p>
-              <button className='w-56 h-8 border flex items-center justify-center rounded-2xl hover:bg-[#546F9D] hover:text-white cursor-pointer mb-6 border-[#546F9D]'>Short reads(&lt;15 mins)</button>
-              <button className='w-56 h-8 border flex items-center justify-center rounded-2xl hover:bg-[#546F9D] hover:text-white cursor-pointer mb-6 border-[#546F9D]'>Medium(~ 30 mins)</button>
-              <button className='w-56 h-8 border flex items-center justify-center rounded-2xl hover:bg-[#546F9D] hover:text-white cursor-pointer mb-6 border-[#546F9D]'>Long(1hr+)</button>
+               <button
+              onClick={() => toggleTime('short')}
+              className={`w-56 h-8 border flex items-center justify-center rounded-2xl cursor-pointer mb-6 border-[#546F9D] transition duration-300
+                ${selected.short ? "bg-[#546F9D] text-white" : "hover:bg-[#546F9D] hover:text-white"}
+              `}>
+              Short reads(&lt;15 mins)
+            </button>
+
+             <button
+              onClick={() => toggleTime('medium')}
+              className={`w-56 h-8 border flex items-center justify-center rounded-2xl cursor-pointer mb-6 border-[#546F9D] transition duration-300
+                ${selected.medium ? "bg-[#546F9D] text-white" : "hover:bg-[#546F9D] hover:text-white"}
+              `}>
+              Medium(~ 30 mins)
+            </button>
+
+             <button
+              onClick={() => toggleTime('long')}
+              className={`w-56 h-8 border flex items-center justify-center rounded-2xl cursor-pointer mb-6 border-[#546F9D] transition duration-300
+                ${selected.long ? "bg-[#546F9D] text-white" : "hover:bg-[#546F9D] hover:text-white"}
+              `}>
+              Long(1hr+)
+            </button>
+
               <button className='w-32 h-8 border flex items-center justify-center rounded-2xl  hover:bg-[#546F9D] hover:text-white cursor-pointer mt-6 border-[#546F9D]'
               onClick={() => navigate('/Form2')}>Previous step</button>
               <button className='w-full h-10 border flex items-center justify-center rounded-full bg-[#546F9D] text-white cursor-pointer mt-20'
