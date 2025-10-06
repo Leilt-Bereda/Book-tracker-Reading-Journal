@@ -53,7 +53,7 @@ Book Tracker & Reading Journal is a comprehensive web application designed for b
 
 1. Clone the repository
 ```bash
-git clone https://github.com/yourusername/book-tracker.git
+git clone https://github.com/Leilt-Bereda/Book-tracker-Reading-Journal.git
 ```
 2. Split your terminal into two windows/tabs:
    - One for the backend
@@ -66,5 +66,6 @@ python app.py
 4. Frontend setup
 ```bash
 cd frontend
+npm install
 npm run dev
 ```
